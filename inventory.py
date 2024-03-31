@@ -5,7 +5,6 @@ from db_operations import search
 
 def inventory_call(message):
     i_nick = search(message.from_user.id)
-
     if len(invent["inventar"][i_nick]["chests"]) == 0 and len(invent["inventar"][i_nick]["items"]) == 0:
         bot.send_message(message.chat.id, "Ваш инвентарь пуст")
     else:
