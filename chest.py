@@ -42,4 +42,3 @@ def open_chest(callback):
 
 
 
-print('hello')
