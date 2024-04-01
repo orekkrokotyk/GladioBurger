@@ -39,3 +39,7 @@ def open_chest(callback):
         invent["inventar"][i_nick]["items"].append(ingredients[h][item] + '-' + h)
     else:
         invent["inventar"][i_nick] = {"items": [ingredients[h][item] + '-' + h]}
+
+
+
+print('hello')
