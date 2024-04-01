@@ -263,11 +263,28 @@ def fire_play(id_1, ingred):
 
 
 def vampirism(id_fight, value, id_1, id_2):
-    ingred = input(f'Введите второй ингредиент для дамага id_1: ')
     global burg
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    g = 0
+    for i in burg[id_1]["ingredients"]:
+        g += 1
+        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place fire{i}")
+        markup.add(btn)
+    inf[id_1] = [id_2, value, id_fight]
+    bot.send_message(int(id_1), "Вот где вы можите высосать сок", reply_markup=markup)
+
+
+def vampirism_play(id_1, ingred):
+    global burg
+    id_2 = inf[str(id_1)][0]
+    value = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     burg[str(id_2)]["ingredients"][ingred][0] -= int(value)
     burg[str(id_1)]["ingredients"]['крапива'][0] += int(value)
     burg[str(id_1)]["ingredients"]['крапива'][1] += int(value)
+    print(e_t[id_fight], 5)
+    e_t[id_fight] = "True"
+    print(e_t[id_fight], 6)
 
 
 ingredient = {'томат': {'hp': 10, 'skill': [heal, 5]}, 'салат': {'hp': 14, 'skill': [heal, 7]},
