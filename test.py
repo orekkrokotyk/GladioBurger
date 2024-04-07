@@ -12,13 +12,25 @@ from telebot import types
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    bot.send_message(message.chat.id, f"""Добро пожаловать, введите никнейм""")
+    bot.register_next_step_handler(message, second_message)
 
-    size_but_1 = types.KeyboardButton("Вход")
-    size_but_2 = types.KeyboardButton("Регестрация")
-    markup.add(size_but_1)
-    markup.add(size_but_2)
-    bot.send_message(message.chat.id, f"""Добро пожаловать""", reply_markup=markup)
+
+def second_message(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    find_id = search_nickname(message)
+    if len(find_id) == 0:
+        size_but_1 = types.KeyboardButton("Другой ник")
+        size_but_2 = types.KeyboardButton(f"Регестрация с ником {message.text}")
+        markup.add(size_but_1)
+        markup.add(size_but_2)
+        bot.send_message(message.chat.id, f"""Такого ника не существует, можете ввести новый или зарегестрироваться с этим""", reply_markup=markup)
+    else:
+        size_but_1 = types.KeyboardButton(f"Вход с ником {message.text}")
+        size_but_2 = types.KeyboardButton("Другой ник")
+        markup.add(size_but_1)
+        markup.add(size_but_2)
+        bot.send_message(message.chat.id, f"""Такой ник есть, можите войти или ввести новый""", reply_markup=markup)
 
 
 @bot.message_handler(commands=['quit'])
@@ -34,12 +46,16 @@ def func(message):
     if mes == 'Главное меню':
         markup = main_menu()
         bot.send_message(message.chat.id, f"""Вы в главном меню игры""", reply_markup=markup)
-    if mes == "Регестрация":
-        msg = bot.send_message(message.chat.id, f"""Регестрируйся, Реальное имя""")
-        bot.register_next_step_handler(msg, name)
-    elif message.text == "Вход":
-        msg = bot.send_message(message.chat.id, f"""Введите свой ник""")
-        bot.register_next_step_handler(msg, log_nick)
+    if mes[:11] == "Регестрация":
+        nick = mes[19:]
+        bot.send_message(message.chat.id, f"""Регестрируйся, Придумайте пароль""")
+        bot.register_next_step_handler(message, pas, nick)
+    elif mes[:4] == "Вход":
+        nick = mes[13:]
+        bot.send_message(message.chat.id, f"""Введите пароль""")
+        bot.register_next_step_handler(message, log_pass, nick)
+    elif mes == "Другой ник":
+        start_message(message)
     if mes == "Кейсы":
         get_chest(message)
     elif mes == 'Инвентарь':
