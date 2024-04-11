@@ -3,7 +3,7 @@ from db_operations import *
 from chest import *
 # from inventory import *
 from inventory import inventory_call, my_burger, change_burger, remake_burger, add_chest, add_ingredient, choice_ingredient, add_burger
-from fight import *
+from fight_bot import *
 from main import main_menu
 
 import telebot
@@ -63,11 +63,15 @@ def func(message):
     elif mes == "Мой бургер":
         my_burger(message)
     elif mes == "В Бой!":
-        waiting_list(message)
+        wait_list(message)
     if mes == "Изменить этот Бургер":
         change_burger(message)
     elif mes == "Полностью его пересобрать":
         remake_burger(message)
+    if mes == "Предъистория мира":
+        pass
+    elif mes == "Начать обучение":
+        pass
     if mes == "common" or mes == "rare" or mes == "epic" or mes == "legendary" or mes == "mythical":
         add_chest(message)
 

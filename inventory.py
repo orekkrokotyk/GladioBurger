@@ -82,7 +82,7 @@ def add_chest(message):
 def add_ingredient(callback):
     markup = main_menu()
     i_nick = search(callback.message.chat.id)
-    if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] == "Булука 🥖":
+    if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1][:-5] == "Булука":
         bot.send_message(callback.message.chat.id, "Булку нельзя убрать или поменять", reply_markup=markup)
     elif invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] == "Котлета 🟤":
         bot.send_message(callback.message.chat.id,
