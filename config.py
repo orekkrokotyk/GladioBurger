@@ -28,7 +28,7 @@ add_cutlet = ['1 place_k', '2 place_k', '3 place_k', '4 place_k', '5 place_k', '
 
 
 chests = {
-    'common': [85, 15, 0, 0, 0],
+    'common': [85, 0, 0, 0, 0],
     'rare': [50, 45, 5, 0, 0],
     'epic': [20, 48, 30, 2, 0],
 

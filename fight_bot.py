@@ -2,8 +2,22 @@ from config import *
 from db_operations import search
 
 
+def ingredient_numerator(ingrid, user_id):
+    number = "2"
+    if ingrid in burg[str(user_id)]["ingredients"].keys():
+        try:
+            print(ingrid[-1])
+            print(int(ingrid[-1]))
+            number = int(ingrid[-1]) + 1
+            return ingredient_numerator(ingrid[:-2] + f" {number}", user_id)
+        except:
+            return ingredient_numerator(ingrid + f" {number}", user_id)
+    else:
+        return ingrid
+
+
 # Дабовление в список игроков ожидающих бой
-def waiting_list(message):
+def wait_list(message):
     global gladiators
     gladiators.append(str(message.from_user.id))
     bot.send_message(message.chat.id, "Вы в списке гладиаторов ожидающих бой")
@@ -26,7 +40,8 @@ def prep_fight(id_fight):
         burg[str(users_id[i])] = {"ingredients": {}, "thorns": 0}
         for v in (invent["inventar"][search(users_id[i])]["burger"]):
             if v != '':
-                burg[str(users_id[i])]["ingredients"][v] = [ingredient[v]['hp'], ingredient[v]['hp']]
+                v_with_num = ingredient_numerator(v, str(users_id[i]))
+                burg[str(users_id[i])]["ingredients"][v_with_num] = [ingredient[v]['hp'], ingredient[v]['hp']]
     fight(id_fight)
 
 
@@ -53,35 +68,46 @@ def fight(id_fight):
         max_len = [len(list_id), len(list_id_2)]
         for g in range(0, max(max_len)):
             if g < len(list_id):
+                try:
+                    int(list_id[g][-1])
+                    ingred = list_id[g][:-2]
+                except:
+                    ingred = list_id[g]
                 e_t[id_fight] = "False"
                 f = open("end_turn.json", 'w', encoding='utf8')
                 json.dump(e_t, f, ensure_ascii=False)
                 f.close()
-                bot.send_message(int(id_1), f"Бургер атакует {list_id[g]}-ой")
-                if list_id[g] == "Булука 🥖":
+                bot.send_message(int(id_1), f"Бургер атакует {ingred}-ой")
+                if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
                     print(f)
-                elif ingredient[list_id[g]]['skill'][0] == damage:
-                    ingredient[list_id[g]]['skill'][0](str(id_fight), list_id[g],
-                                                       ingredient[list_id[g]]['skill'][1], id_1, id_2)
-                elif ingredient[list_id[g]]['skill'][0] != damage:
-                    ingredient[list_id[g]]['skill'][0](str(id_fight), ingredient[list_id[g]]['skill'][1], id_1, id_2)
+                elif ingredient[ingred]['skill'][0] == damage:
+                    ingredient[ingred]['skill'][0](str(id_fight), ingred,
+                                                   ingredient[ingred]['skill'][1], id_1, id_2)
+                elif ingredient[ingred]['skill'][0] != damage:
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
             # Проверка нужная для того что-бы бот не отправлял сообщение второму игроку до того как первый не выбрал ингридиент для взаимодействия
             while e_t[id_fight] == "False":
                 useless += 0
             if g < len(list_id_2):
+                try:
+                    int(list_id_2[g][-1])
+                    ingred = list_id_2[g][:-2]
+                except:
+                    ingred = list_id_2[g]
                 e_t[id_fight] = "False"
                 f = open("end_turn.json", 'w', encoding='utf8')
                 json.dump(e_t, f, ensure_ascii=False)
                 f.close()
-                bot.send_message(int(id_2), f"Бургер атакует {list_id_2[g]}-ой")
-                if list_id_2[g] == "Булука 🥖":
+                bot.send_message(int(id_2), f"Бургер атакует {ingred}-ой")
+                if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
-                elif ingredient[list_id_2[g]]['skill'][0] == damage:
-                    ingredient[list_id_2[g]]['skill'][0](str(id_fight), list_id_2[g],
-                                                       ingredient[list_id_2[g]]['skill'][1], id_2, id_1)
-                elif ingredient[list_id_2[g]]['skill'][0] != damage:
-                    ingredient[list_id_2[g]]['skill'][0](str(id_fight), ingredient[list_id_2[g]]['skill'][1], id_2, id_1)
+                elif ingredient[ingred]['skill'][0] == damage:
+                    ingredient[ingred]['skill'][0](str(id_fight), ingred,
+                                                         ingredient[ingred]['skill'][1], id_2, id_1)
+                elif ingredient[ingred]['skill'][0] != damage:
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2,
+                                                         id_1)
             while e_t[id_fight] == "False":
                 useless += 0
         f = open("burger_data.json", 'r+', encoding="utf-8")
@@ -115,7 +141,7 @@ def fight(id_fight):
         t = []
         z = []
 
-    del fight[id_fight]
+    del figh[id_fight]
     del burg[str(id_1)]
     del burg[str(id_2)]
 
@@ -152,12 +178,11 @@ def damage_play(id_1, ingred_2):
         burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
         burg[id_2]["thorns"] = 0
     burg[id_2]["ingredients"][ingred_2][0] -= int(value)
-    e_t[id_fight ] = "True"
+    e_t[id_fight] = "True"
     del inf[str(id_1)]
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
     f.close()
-
 
 
 def heal(id_fight, value, id_1, id_2):
@@ -293,4 +318,5 @@ ingredient = {'томат': {'hp': 10, 'skill': [heal, 5]}, 'салат': {'hp':
               'капуста': {'hp': 20, 'skill': [heal, 10]}, 'картофель': {'hp': 10, 'skill': [damage, 5]},
               'репа': {'hp': 16, 'skill': [heal, 8]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
               'острый_перец': {'hp': 30, 'skill': [fire, 15]},
-              "Котлета 🟤": {'hp': 50, 'skill': [damage, 1500]}}
+              "Котлета 🟤": {'hp': 50, 'skill': [damage, 1500]},
+              "Булука 🥖": {'hp': 10000}}

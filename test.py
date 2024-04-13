@@ -74,6 +74,9 @@ def func(message):
         pass
     if mes == "common" or mes == "rare" or mes == "epic" or mes == "legendary" or mes == "mythical":
         add_chest(message)
+        add_chest(message)
+        add_chest(message)
+        add_chest(message)
 
 
 @bot.callback_query_handler(func=lambda callback: callback.data)
