@@ -52,20 +52,16 @@ def fight(id_fight):
     z = []
     global figh
     global e_t
+    global burg
     print(figh)
     id_1 = figh[id_fight][0]
     id_2 = figh[id_fight][1]
-    f = open("burger_data.json", 'r+', encoding="utf-8")
-    burg = json.load(f)
-    f.close()
     # бой продолжается до момента существования котлеты в бургере
     while 'Котлета 🟤' in list(burg[str(id_1)]["ingredients"]) and "Котлета 🟤" in list(burg[str(id_2)]["ingredients"]):
-        f = open("burger_data.json", 'r+', encoding="utf-8")
-        burg = json.load(f)
-        f.close()
         list_id = list(burg[str(id_1)]["ingredients"])
         list_id_2 = list(burg[str(id_2)]["ingredients"])
         max_len = [len(list_id), len(list_id_2)]
+        print(max_len)
         for g in range(0, max(max_len)):
             if g < len(list_id):
                 try:
@@ -110,9 +106,6 @@ def fight(id_fight):
                                                          id_1)
             while e_t[id_fight] == "False":
                 useless += 0
-        f = open("burger_data.json", 'r+', encoding="utf-8")
-        burg = json.load(f)
-        f.close()
         # Поиск умерщих ингридиентов
         for x, y in burg[str(id_1)]["ingredients"].items():
             if y[0] <= 0:
@@ -126,11 +119,12 @@ def fight(id_fight):
         for i in z:
             del burg[str(id_1)]["ingredients"][i]
         # Определение победителя
-        if 'котлета' not in list(burg[str(id_1)]["ingredients"]):
+        print(list(burg[str(id_1)]["ingredients"]), list(burg[str(id_2)]["ingredients"]))
+        if 'Котлета 🟤' not in list(burg[str(id_1)]["ingredients"]):
             bot.send_message(int(id_1), f"Победил игрок {id_2}")
             bot.send_message(int(id_2), f"Победил игрок {id_2}")
             return
-        elif 'котлета' not in list(burg[str(id_2)]["ingredients"]):
+        elif 'Котлета 🟤' not in list(burg[str(id_2)]["ingredients"]):
             bot.send_message(int(id_1), f"Победил игрок {id_1}")
             bot.send_message(int(id_2), f"Победил игрок {id_1}")
             return
@@ -170,7 +164,9 @@ def damage_play(id_1, ingred_2):
     global burg
     global inf
     global e_t
-    id_2 = inf[str(id_1)][0]
+    id_1 = str(id_1)
+    id_2 = str(inf[str(id_1)][0])
+    print(id_1, id_2)
     ingred_1 = inf[str(id_1)][1]
     value = inf[str(id_1)][2]
     id_fight = inf[str(id_1)][3]

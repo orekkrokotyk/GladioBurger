@@ -19,8 +19,8 @@ l_nick = ""
 l_pas = ""
 n_pass = ""
 i_nick = ""
-burger = ["Булука 🥖", "", "", "", "Котлета 🟤", "", "", "Булука 2 🥖"]
-clean_burger = ["Булука 🥖", "", "", "", "", "", "", "Булука 2 🥖"]
+burger = ["Булука 🥖", "", "", "", "Котлета 🟤", "", "", "Булука 🥖"]
+clean_burger = ["Булука 🥖", "", "", "", "", "", "", "Булука 🥖"]
 burger_update = ['1 place', '2 place', '3 place', '4 place', '5 place', '6 place', '7 place', '8 place']
 burger_attack = ['1 place  attack', '2 place attack', '3 place attack', '4 place attack', '5 place attack',
                  '6 place attack', '7 place attack', '8 place attack']

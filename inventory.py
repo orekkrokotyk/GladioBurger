@@ -94,7 +94,8 @@ def add_ingredient(callback):
         del invent["inventar"][i_nick]["items"][p]
         print(invent["inventar"][i_nick]["items"])
         if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] != "":
-            invent["inventar"][i_nick]["items"].append(invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1])
+            # invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1]
+            invent["inventar"][i_nick]["items"].append([x for x in all_i if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] in x])
             bot.send_message(callback.message.chat.id,
                              f"Старый ингридиент: {invent['inventar'][i_nick]['burger'][int(callback.data[-1]) - 1]} перемещён в инвентарь")
         invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] = (callback.data.split('-'))[0]
