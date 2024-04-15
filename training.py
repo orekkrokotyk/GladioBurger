@@ -3,6 +3,7 @@ from telebot import types
 from config import *
 from inventory import my_burger
 from db_operations import search
+from fight_bot import prep_fight
 
 def training_start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)

@@ -89,7 +89,10 @@ def add_ingredient(callback):
                          "Котлету нельзя убрать, что бы её переместить пересобирите бургер", reply_markup=markup)
     else:
         p = (invent["inventar"][i_nick]["items"]).index(callback.data[:-1])
+        print(p)
+        print(invent["inventar"][i_nick]["items"])
         del invent["inventar"][i_nick]["items"][p]
+        print(invent["inventar"][i_nick]["items"])
         if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] != "":
             invent["inventar"][i_nick]["items"].append(invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1])
             bot.send_message(callback.message.chat.id,
@@ -113,7 +116,7 @@ def choice_ingredient(callback):
             btn = types.InlineKeyboardButton(text=f"Добавить {i}➕", callback_data=i + callback.data[0])
             markup.add(btn)
 
-        bot.send_message(callback.message.chat.id, "Вот что вы можите в него добавить", reply_markup=markup)
+        bot.send_message(callback.message.chat.id, f"Вот что вы можите в него добавить на место {callback.data}", reply_markup=markup)
 
 
 def add_burger(callback):

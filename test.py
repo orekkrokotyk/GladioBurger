@@ -89,6 +89,7 @@ def callback_query(callback):
     elif (callback.data.split('-'))[0] in ingredient:
         add_ingredient(callback)
     elif callback.data in burger_update:
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         choice_ingredient(callback)
     elif callback.data in add_cutlet:
         add_burger(callback)
