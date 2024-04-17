@@ -51,6 +51,7 @@ def change_burger(message):
 
 
 def remake_burger(message):
+    global invent
     i_nick = search(message.from_user.id)
 
     markup = types.InlineKeyboardMarkup(row_width=1)
@@ -89,13 +90,11 @@ def add_ingredient(callback):
                          "Котлету нельзя убрать, что бы её переместить пересобирите бургер", reply_markup=markup)
     else:
         p = (invent["inventar"][i_nick]["items"]).index(callback.data[:-1])
-        print(p)
-        print(invent["inventar"][i_nick]["items"])
         del invent["inventar"][i_nick]["items"][p]
-        print(invent["inventar"][i_nick]["items"])
         if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] != "":
             # invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1]
-            invent["inventar"][i_nick]["items"].append([x for x in all_i if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] in x])
+            ingredient_with_rare = [x for x in all_i if invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] in x]
+            invent["inventar"][i_nick]["items"].append(''.join(ingredient_with_rare))
             bot.send_message(callback.message.chat.id,
                              f"Старый ингридиент: {invent['inventar'][i_nick]['burger'][int(callback.data[-1]) - 1]} перемещён в инвентарь")
         invent["inventar"][i_nick]["burger"][int(callback.data[-1]) - 1] = (callback.data.split('-'))[0]
@@ -114,7 +113,9 @@ def choice_ingredient(callback):
     else:
         markup = types.InlineKeyboardMarkup(row_width=1)
         for i in invent["inventar"][i_nick]["items"]:
-            btn = types.InlineKeyboardButton(text=f"Добавить {i}➕", callback_data=i + callback.data[0])
+            print(i)
+            y = (i + callback.data[0])
+            btn = types.InlineKeyboardButton(text=f"Добавить {i}➕", callback_data=y)
             markup.add(btn)
 
         bot.send_message(callback.message.chat.id, f"Вот что вы можите в него добавить на место {callback.data}", reply_markup=markup)

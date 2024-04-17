@@ -36,7 +36,8 @@ def log_pass(message, nick):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     connection = sqlite3.connect('Users.db', check_same_thread=False)
     cursor = connection.cursor()
-    if l_pas == n_pass:
+    n_pass = cursor.execute(f"""SELECT password FROM Users WHERE nickname = '{nick}'""").fetchall()
+    if l_pas == n_pass[0][0]:
         cursor.execute(f"""UPDATE User_id_nick SET nick = '{nick}' WHERE user_id = '{message.from_user.id}'""")
         connection.commit()
         markup = main_menu()
@@ -46,25 +47,9 @@ def log_pass(message, nick):
 
         markup.add(size_but_1)
         bot.send_message(message.chat.id, "Не верный пароль, попробуйте ещё раз", reply_markup=markup)
+        bot.send_message(message.chat.id, f"""Введите пароль""")
+        bot.register_next_step_handler(message, log_pass, nick)
 
-
-# Выход из аккаунта
-def quit_message(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    connection = sqlite3.connect('Users.db', check_same_thread=False)
-    cursor = connection.cursor()
-    g = cursor.execute(f"""SELECT user_id FROM User_id_nick""").fetchall()
-    s = [g[i][0] for i in range(len(g))]
-    print(s)
-    cursor.execute(
-        f"""UPDATE User_id_nick SET nick = '{message.from_user.id}' WHERE user_id = '{message.from_user.id}'""")
-    connection.commit()
-    connection.close()
-    size_but_1 = types.KeyboardButton("Вход")
-    size_but_2 = types.KeyboardButton("Регестрация")
-    markup.add(size_but_1)
-    markup.add(size_but_2)
-    bot.send_message(message.chat.id, f"""Вы вышли из своего аккаунта""", reply_markup=markup)
 
 
 # Функция ищющая ник пользователя по telegram id

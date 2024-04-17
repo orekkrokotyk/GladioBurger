@@ -47,7 +47,7 @@ def func(message):
         markup = main_menu()
         bot.send_message(message.chat.id, f"""Вы в главном меню игры""", reply_markup=markup)
     if mes[:11] == "Регестрация":
-        nick = mes[19:]
+        nick = mes[20:]
         bot.send_message(message.chat.id, f"""Регестрируйся, Придумайте пароль""")
         bot.register_next_step_handler(message, pas, nick)
     elif mes[:4] == "Вход":
@@ -101,6 +101,27 @@ def callback_query(callback):
         armor_play(callback.from_user.id, callback.data[11:])
     elif callback.data[:10] == "place fire":
         fire_play(callback.from_user.id, callback.data[10:])
+    elif callback.data[:10] == "place prov":
+        god_play(callback.from_user.id, callback.data[10:])
+    elif callback.data[:10] == "place copy":
+        copy_play(callback.from_user.id, callback.data[10:])
+
+
+
+
+# Выход из аккаунта
+def quit_message(message):
+    connection = sqlite3.connect('Users.db', check_same_thread=False)
+    cursor = connection.cursor()
+    g = cursor.execute(f"""SELECT user_id FROM User_id_nick""").fetchall()
+    s = [g[i][0] for i in range(len(g))]
+    cursor.execute(
+        f"""UPDATE User_id_nick SET nick = '{message.from_user.id}' WHERE user_id = '{message.from_user.id}'""")
+    connection.commit()
+    connection.close()
+    bot.send_message(message.chat.id, f"""Вы вышли из своего аккаунта""")
+    start_message(message)
+
 
 
 def exit_handler():
