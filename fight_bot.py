@@ -53,17 +53,12 @@ def fight(id_fight):
     z = []
     global figh
     global e_t
+    global burg
     print(figh)
     id_1 = figh[id_fight][0]
     id_2 = figh[id_fight][1]
-    f = open("burger_data.json", 'r+', encoding="utf-8")
-    burg = json.load(f)
-    f.close()
     # бой продолжается до момента существования котлеты в бургере
     while 'Котлета 🟤' in list(burg[str(id_1)]["ingredients"]) and "Котлета 🟤" in list(burg[str(id_2)]["ingredients"]):
-        f = open("burger_data.json", 'r+', encoding="utf-8")
-        burg = json.load(f)
-        f.close()
         list_id = list(burg[str(id_1)]["ingredients"])
         list_id_2 = list(burg[str(id_2)]["ingredients"])
         max_len = [len(list_id), len(list_id_2)]
@@ -111,16 +106,17 @@ def fight(id_fight):
                                                          id_1)
             while e_t[id_fight] == "False":
                 useless += 0
-        f = open("burger_data.json", 'r+', encoding="utf-8")
-        burg = json.load(f)
-        f.close()
         # Поиск умерщих ингридиентов
         for x, y in burg[str(id_1)]["ingredients"].items():
+            print(x, y)
             if y[0] <= 0:
                 z.append(x)
+                print(z)
         for x, y in burg[str(id_2)]["ingredients"].items():
+            print(x, y)
             if y[0] <= 0:
                 t.append(x)
+                print(t)
         # Удаление умерших ингридиентов
         for i in t:
             del burg[str(id_2)]["ingredients"][i]
@@ -160,7 +156,7 @@ def damage(id_fight, ingred_1, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place attack{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, ingred_1, value, id_fight]
+    inf[str(id_1)] = [id_2, ingred_1, value, id_fight]
     bot.send_message(int(id_1), "Вот куда вы можете куснуть аппанента", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -172,6 +168,7 @@ def damage_play(id_1, ingred_2):
     global inf
     global e_t
     id_1 = str(id_1)
+    print(inf)
     id_2 = str(inf[str(id_1)][0])
     ingred_1 = inf[str(id_1)][1]
     value = inf[str(id_1)][2]
@@ -341,8 +338,12 @@ def copy_play(id_1, ingred):
     global burg
     id_2 = inf[str(id_1)][0]
     id_fight = inf[str(id_1)][1]
+    print(ingred)
+    del inf[str(id_1)]
     if ingredient[ingred]['skill'][0] == damage:
+
         ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_1, id_2)
+
     elif ingredient[ingred]['skill'][0] != damage:
         ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
 
