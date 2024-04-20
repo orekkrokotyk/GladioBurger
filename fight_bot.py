@@ -78,8 +78,7 @@ def fight(id_fight):
                     e_t[id_fight] = "True"
                     print(f)
                 elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingred,
-                                                   ingredient[ingred]['skill'][1], id_1, id_2)
+                    ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_1, id_2)
                 elif ingredient[ingred]['skill'][0] != damage:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
             # Проверка нужная для того что-бы бот не отправлял сообщение второму игроку до того как первый не выбрал ингридиент для взаимодействия
@@ -99,11 +98,9 @@ def fight(id_fight):
                 if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
                 elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingred,
-                                                         ingredient[ingred]['skill'][1], id_2, id_1)
+                    ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_2, id_1)
                 elif ingredient[ingred]['skill'][0] != damage:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2,
-                                                         id_1)
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2,id_1)
             while e_t[id_fight] == "False":
                 useless += 0
         # Поиск умерщих ингридиентов
@@ -383,18 +380,17 @@ def god_play(id_1, ingred_2):
 
 
 ingredient = {
-            'томат': {'hp': 10, 'skill': [heal, 5]}, 'салат': {'hp': 14, 'skill': [heal, 7]},
-            'огурец': {'hp': 20, 'skill': [damage, 5]}, 'солёный_огурец': {'hp': 5, 'skill': [thorn, 5]},
-            'морковь': {'hp': 14, 'skill': [damage, 7]}, 'чеснок': {'hp': 8, 'skill': [thorn, 8]},
-            'капуста': {'hp': 20, 'skill': [heal, 10]}, 'картофель': {'hp': 10, 'skill': [damage, 5]},
-            'репа': {'hp': 16, 'skill': [heal, 8]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
-            'острый_перец': {'hp': 30, 'skill': [fire, 15]},
-            "Котлета 🟤": {'hp': 50, 'skill': [damage, 15]},
-            "Булука 🥖": {'hp': 10000}, 'лук': {'hp': 50, 'skill': [thorn, 15]},
-            'сыр': {'hp': 50, 'skill': [armor, 10]}, 'свёкла': {'hp': 50, 'skill': [coloring, 0]},
-            'горох': {'hp': 50, 'skill': [copy, 0]}, 'сельдерей': {'hp': 50, 'skill': [damage, 15]},
-            'баклажан': {'hp': 50, 'skill': [armor, 15]}, 'цветная_капуста': {'hp': 50, 'skill': [god, 5]},
-            'пекинская_капуста': {'hp': 50, 'skill': [damage, 20]}, 'кабачок': {'hp': 50, 'skill': [god, 7]},
-            'фасоль': {'hp': 50, 'skill': [coloring, 0]}, 'брюква': {'hp': 50, 'skill': [armor, 17]},
-            'укроп': {'hp': 50, 'skill': [copy, 0]}, 'лук-порей': {'hp': 50, 'skill': [damage, 20]}
+            'томат': {'hp': 100, 'skill': [heal, 52]}, 'салат': {'hp': 130, 'skill': [heal, 35]},
+            'огурец': {'hp': 80, 'skill': [damage, 75]}, 'солёный_огурец': {'hp': 60, 'skill': [thorn, 30]},
+            'морковь': {'hp': 100, 'skill': [damage, 55]}, 'чеснок': {'hp': 90, 'skill': [thorn, 15]},
+            'капуста': {'hp': 160, 'skill': [heal, 25]}, 'картофель': {'hp': 50, 'skill': [damage, 100]},
+            'репа': {'hp': 30, 'skill': [heal, 80]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
+            'острый_перец': {'hp': 30, 'skill': [fire, 15]},"Котлета 🟤": {'hp': 750, 'skill': [damage, 15]},
+            'Булука 🥖': {'hp': 10000}, 'лук': {'hp': 150, 'skill': [thorn, 30]},
+            'сыр': {'hp': 130, 'skill': [armor, 30]}, 'свёкла': {'hp': 60, 'skill': [coloring, 0]},
+            'горох': {'hp': 60, 'skill': [copy, 0]}, 'сельдерей': {'hp': 130, 'skill': [damage, 100]},
+            'баклажан': {'hp': 200, 'skill': [armor, 20]}, 'цветная_капуста': {'hp': 130, 'skill': [god, 40]},
+            'пекинская_капуста': {'hp': 100, 'skill': [damage, 140]}, 'кабачок': {'hp': 200, 'skill': [heal, 100]},
+            'фасоль': {'hp': 100, 'skill': [coloring, 0]}, 'брюква': {'hp': 100, 'skill': [armor, 52]},
+            'укроп': {'hp': 75, 'skill': [copy, 0]}, 'лук-порей': {'hp': 90, 'skill': [damage, 150]}
               }

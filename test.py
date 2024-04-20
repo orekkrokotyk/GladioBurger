@@ -94,16 +94,22 @@ def callback_query(callback):
     elif callback.data in add_cutlet:
         add_burger(callback)
     elif callback.data[:12] == "place attack":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         damage_play(callback.from_user.id, callback.data[12:])
     elif callback.data[:10] == "place heal":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         heal_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:11] == "place armor":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         armor_play(callback.from_user.id, callback.data[11:])
     elif callback.data[:10] == "place fire":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         fire_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:10] == "place prov":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         god_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:10] == "place copy":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         copy_play(callback.from_user.id, callback.data[10:])
 
 
