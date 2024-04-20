@@ -28,7 +28,7 @@ add_cutlet = ['1 place_k', '2 place_k', '3 place_k', '4 place_k', '5 place_k', '
 
 
 chests = {
-    'common': [85, 0, 0, 0, 0],
+    'common': [85, 15, 0, 0, 0],
     'rare': [50, 45, 5, 0, 0],
     'epic': [20, 48, 30, 2, 0],
     'legendary': [10, 20, 40, 29, 1],
@@ -52,6 +52,11 @@ all_i = ['томат-common', 'салат-common', 'огурец-common', 'со�
          'редис-epic', 'петрушка-epic', 'корнишон-epic', 'острый_перец-epic', 'авокадо-legendary',
          'брюсельская капуста-legendary', 'патиссон-legendary', 'мангольд-legendary', 'крапива-mythical']
 
+market = {"common": 120,
+          "rare": 210,
+          "epic": 360,
+          "legendary": 630}
+
 
 gladiators = []
 cr = []
@@ -72,6 +77,9 @@ inf = json.load(f)
 f.close()
 f = open("end_turn.json", 'r+', encoding="utf=8")
 e_t = json.load(f)
+f.close()
+f = open("ingredient_property.json", "r+", encoding="utf-8")
+ingredient_property = json.load(f)
 f.close()
 
 

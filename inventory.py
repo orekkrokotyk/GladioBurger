@@ -70,14 +70,21 @@ def remake_burger(message):
 def add_chest(message):
     i_nick = search(message.from_user.id)
     markup = main_menu()
-    g = message.text
-    if i_nick in invent["inventar"]:
-        invent["inventar"][i_nick]["chests"].append(g + '-' + "Сундук")
+    g = message.text.split()[0]
+    praise = int(message.text.split()[1])
+    if invent['inventar'][i_nick]['many'] - praise < 0:
+        bot.send_message(message.chat.id, f"У вас нет минет")
+        bot.send_message(message.chat.id, f"Сражайся чтобы зарабатывать минеты")
     else:
-        invent["inventar"][i_nick] = {"chests": [g + '-' + "Сундук"], "items": [],
-                                      "burger": burger}
+        invent['inventar'][i_nick]['many'] -= praise
+        if i_nick in invent["inventar"]:
+            invent["inventar"][i_nick]["chests"].append(g + '-' + "Сундук")
+        else:
+            invent["inventar"][i_nick] = {"chests": [g + '-' + "Сундук"], "items": [],
+                                          "burger": burger}
 
-    bot.send_message(message.chat.id, g + '-' + "Сундук", reply_markup=markup)
+        bot.send_message(message.chat.id, g + '-' + "Сундук", reply_markup=markup)
+        bot.send_message(message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
 
 
 def add_ingredient(callback):

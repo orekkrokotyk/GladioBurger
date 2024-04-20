@@ -1,0 +1,7 @@
+{
+  "ingridient name*": {
+    "quality": "quality*",
+    "photo": "directory*",
+    "description": "description*"
+  }
+}

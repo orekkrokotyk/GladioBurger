@@ -4,16 +4,20 @@ from db_operations import search
 
 
 def get_chest(message):
+    global invent
+    i_nick = search(message.chat.id)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1 = types.KeyboardButton('common')
-    btn2 = types.KeyboardButton('rare')
-    btn3 = types.KeyboardButton('epic')
-    btn4 = types.KeyboardButton('legendary')
-    btn5 = types.KeyboardButton('mythical')
+    btn1 = types.KeyboardButton('common 120')
+    btn2 = types.KeyboardButton('rare 210')
+    btn3 = types.KeyboardButton('epic 360')
+    btn4 = types.KeyboardButton('legendary 630')
     btn6 = types.KeyboardButton('Главное меню')
-    markup.add(btn1, btn2, btn3, btn4, btn5)
+    markup.add(btn1, btn2, btn3, btn4)
     markup.add(btn6)
-    bot.send_message(message.chat.id, 'Какой кейс?', reply_markup=markup)
+    bot.send_message(message.chat.id, 'Какой кейс вы хотите купить?', reply_markup=markup)
+    print(invent['inventar'][i_nick])
+    bot.send_message(message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
+
 
 
 def open_chest(callback):

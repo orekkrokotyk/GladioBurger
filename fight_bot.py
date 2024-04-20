@@ -39,10 +39,11 @@ def prep_fight(id_fight):
         # создание словаря с ингридиентами соперников и их характеристиками
         burg[str(users_id[i])] = {"ingredients": {}, "thorns": 0, "color": 0, "god": 0}
         for v in (invent["inventar"][search(users_id[i])]["burger"]):
+            # if v == "Булука 🥖":
+            #     pass
             if v != '':
                 v_with_num = ingredient_numerator(v, str(users_id[i]))
                 burg[str(users_id[i])]["ingredients"][v_with_num] = [ingredient[v]['hp'], ingredient[v]['hp']]
-                print(1232)
     fight(id_fight)
 
 
@@ -78,7 +79,7 @@ def fight(id_fight):
                     e_t[id_fight] = "True"
                     print(f)
                 elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or ingredient[ingred]['skill'][0] == snipe:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_1, id_2)
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2, ingred)
                 elif ingredient[ingred]['skill'][0] != damage:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
             # Проверка нужная для того что-бы бот не отправлял сообщение второму игроку до того как первый не выбрал ингридиент для взаимодействия
@@ -97,8 +98,8 @@ def fight(id_fight):
                 bot.send_message(int(id_2), f"Бургер атакует {ingred}-ой")
                 if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
-                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_2, id_1)
+                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or ingredient[ingred]['skill'][0] == snipe:
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2, id_1, ingred)
                 elif ingredient[ingred]['skill'][0] != damage:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2,id_1)
             while e_t[id_fight] == "False":
@@ -121,12 +122,16 @@ def fight(id_fight):
             del burg[str(id_1)]["ingredients"][i]
         # Определение победителя
         if 'Котлета 🟤' not in list(burg[str(id_1)]["ingredients"]):
-            bot.send_message(int(id_1), f"Победил игрок {id_2}")
-            bot.send_message(int(id_2), f"Победил игрок {id_2}")
+            bot.send_message(int(id_1), f"Победил игрок {search(id_2)}")
+            invent['inventar'][search(id_2)]['many'] += 210
+            bot.send_message(int(id_2), f"Победил игрок {search(id_2)}")
+            invent['inventar'][search(id_1)]['many'] += 120
             return
         elif 'Котлета 🟤' not in list(burg[str(id_2)]["ingredients"]):
-            bot.send_message(int(id_1), f"Победил игрок {id_1}")
-            bot.send_message(int(id_2), f"Победил игрок {id_1}")
+            bot.send_message(int(id_1), f"Победил игрок {search(id_1)}")
+            invent['inventar'][search(id_1)]['many'] += 210
+            bot.send_message(int(id_2), f"Победил игрок {search(id_1)}")
+            invent['inventar'][search(id_2)]['many'] += 120
             return
         else:
             bot.send_message(int(id_1), f"Следующий круг")
@@ -143,7 +148,7 @@ def fight(id_fight):
 
 
 # Функции взаимодействия
-def damage(id_fight, ingred_1, value, id_1, id_2):
+def damage(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
     global figh
@@ -153,7 +158,7 @@ def damage(id_fight, ingred_1, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place attack{i}")
         markup.add(btn)
-    inf[str(id_1)] = [id_2, ingred_1, value, id_fight]
+    inf[str(id_1)] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете куснуть аппанента", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -167,9 +172,9 @@ def damage_play(id_1, ingred_2):
     id_1 = str(id_1)
     print(inf)
     id_2 = str(inf[str(id_1)][0])
-    ingred_1 = inf[str(id_1)][1]
-    value = inf[str(id_1)][2]
-    id_fight = inf[str(id_1)][3]
+    ingred_1 = inf[str(id_1)][3]
+    value = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     if burg[id_2]["thorns"] != 0:
         burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
         burg[id_2]["thorns"] = 0
@@ -328,16 +333,16 @@ def copy(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place copy{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, id_fight]
+    inf[id_1] = [id_2, value, id_fight]
     bot.send_message(int(id_1), "Вот чьи способности вы можете скопировать", reply_markup=markup)
 
 def copy_play(id_1, ingred):
     global burg
     id_2 = inf[str(id_1)][0]
-    id_fight = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     print(ingred)
     del inf[str(id_1)]
-    if ingredient[ingred]['skill'][0] == damage:
+    if ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == snipe:
 
         ingredient[ingred]['skill'][0](str(id_fight), ingred, ingredient[ingred]['skill'][1], id_1, id_2)
 
@@ -345,7 +350,7 @@ def copy_play(id_1, ingred):
         ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
 
 
-def god(id_fight, ingred_1, value, id_1, id_2):
+def god(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
     global figh
@@ -355,7 +360,7 @@ def god(id_fight, ingred_1, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place prov{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, ingred_1, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот кого вы можете справоцировать ", reply_markup=markup)
 
 
@@ -364,9 +369,9 @@ def god_play(id_1, ingred_2):
     global inf
     global e_t
     id_2 = inf[str(id_1)][0]
-    ingred_1 = inf[str(id_1)][1]
-    value = inf[str(id_1)][2]
-    id_fight = inf[str(id_1)][3]
+    ingred_1 = inf[str(id_1)][3]
+    value = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     if burg[id_2]["thorns"] != 0:
         burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
         burg[id_2]["thorns"] = 0
@@ -379,7 +384,7 @@ def god_play(id_1, ingred_2):
     del inf[str(id_1)]
 
 
-def snipe(id_fight, ingred_1, value, id_1, id_2):
+def snipe(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
     global figh
@@ -387,9 +392,9 @@ def snipe(id_fight, ingred_1, value, id_1, id_2):
     g = 0
     for i in burg[id_2]["ingredients"]:
         g += 1
-        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place attack{i}")
+        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place snipe1{i}")
         markup.add(btn)
-    inf[str(id_1)] = [id_2, ingred_1, value, id_fight]
+    inf[str(id_1)] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете снайпнуть аппанента", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -403,9 +408,9 @@ def snipe_play(id_1, ingred_2):
     id_1 = str(id_1)
     print(inf)
     id_2 = str(inf[str(id_1)][0])
-    ingred_1 = inf[str(id_1)][1]
-    value = inf[str(id_1)][2]
-    id_fight = inf[str(id_1)][3]
+    ingred_1 = inf[str(id_1)][3]
+    value = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     if burg[id_2]["thorns"] != 0:
         burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
         burg[id_2]["thorns"] = 0
@@ -420,8 +425,9 @@ def snipe_play(id_1, ingred_2):
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
     f.close()
+    snipe_2(id_fight, value, id_1, id_2, ingred_1)
 
-def snipe_2(id_fight, ingred_1, value, id_1, id_2):
+def snipe_2(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
     global figh
@@ -429,9 +435,9 @@ def snipe_2(id_fight, ingred_1, value, id_1, id_2):
     g = 0
     for i in burg[id_2]["ingredients"]:
         g += 1
-        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place attack{i}")
+        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place snipe2{i}")
         markup.add(btn)
-    inf[str(id_1)] = [id_2, ingred_1, value, id_fight]
+    inf[str(id_1)] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете снайпнуть аппанента во второй раз", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -445,9 +451,9 @@ def snipe_2_play(id_1, ingred_2):
     id_1 = str(id_1)
     print(inf)
     id_2 = str(inf[str(id_1)][0])
-    ingred_1 = inf[str(id_1)][1]
-    value = inf[str(id_1)][2]
-    id_fight = inf[str(id_1)][3]
+    ingred_1 = inf[str(id_1)][3]
+    value = inf[str(id_1)][1]
+    id_fight = inf[str(id_1)][2]
     if burg[id_2]["thorns"] != 0:
         burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
         burg[id_2]["thorns"] = 0

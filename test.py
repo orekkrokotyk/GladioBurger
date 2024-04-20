@@ -72,10 +72,7 @@ def func(message):
         pass
     elif mes == "Начать обучение":
         pass
-    if mes == "common" or mes == "rare" or mes == "epic" or mes == "legendary" or mes == "mythical":
-        add_chest(message)
-        add_chest(message)
-        add_chest(message)
+    if mes.split()[0] == "common" or mes.split()[0] == "rare" or mes.split()[0] == "epic" or mes.split()[0] == "legendary" or mes.split()[0] == "mythical":
         add_chest(message)
 
 
@@ -93,6 +90,18 @@ def callback_query(callback):
         choice_ingredient(callback)
     elif callback.data in add_cutlet:
         add_burger(callback)
+    elif "Булука 🥖" in callback.data:
+        bot.send_message(callback.message.chat.id, f"""C Булкой нельзя взаимодействовать""")
+        id_1 = str(callback.message.chat.id)
+        id_2 = inf[str(id_1)][0]
+        value = inf[str(id_1)][1]
+        id_fight = inf[str(id_1)][2]
+        if ingredient[inf[id_1][1]]["skill"][0] == damage \
+                or ingredient[inf[id_1][1]]["skill"][0] == snipe:
+            ingred_1 = inf[str(id_1)][3]
+            ingredient[inf[id_1][1]]["skill"][0](id_fight, value, id_1, id_2, ingred_1)
+        else:
+            ingredient[inf[id_1][1]]["skill"][0](id_fight, value, id_1, id_2)
     elif callback.data[:12] == "place attack":
         bot.delete_message(callback.message.chat.id, callback.message.id)
         damage_play(callback.from_user.id, callback.data[12:])
@@ -111,6 +120,13 @@ def callback_query(callback):
     elif callback.data[:10] == "place copy":
         bot.delete_message(callback.message.chat.id, callback.message.id)
         copy_play(callback.from_user.id, callback.data[10:])
+    elif callback.data[:12] == "place snipe1":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
+        snipe_play(callback.from_user.id, callback.data[12:])
+    elif callback.data[:12] == "place snipe2":
+        bot.delete_message(callback.message.chat.id, callback.message.id)
+        snipe_2_play(callback.from_user.id, callback.data[12:])
+
 
 
 
