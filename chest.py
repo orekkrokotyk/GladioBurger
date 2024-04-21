@@ -25,7 +25,6 @@ def open_chest(callback):
     i_nick = search(callback.message.chat.id)
     p = (invent["inventar"][i_nick]["chests"]).index(callback.data)
     del invent["inventar"][i_nick]["chests"][p]
-    bot.delete_message(callback.message.chat.id, callback.message.id)
     rarity = callback.data[:-7]
     chat_id = callback.message.chat.id
     markup = main_menu()

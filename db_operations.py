@@ -14,7 +14,7 @@ def pas(message, nick):
 def reg(u_id, nickname, password):
         global invent
         invent["inventar"][nickname] = {"chests": [], "items": [],
-                                        "burger": burger}
+                                        "burger": burger, "many": 120}
         connection = sqlite3.connect('Users.db', check_same_thread=False)
         cursor = connection.cursor()
         g = cursor.execute(f"""SELECT user_id FROM User_id_nick""").fetchall()

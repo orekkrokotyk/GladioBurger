@@ -32,7 +32,7 @@ chests = {
     'rare': [50, 45, 5, 0, 0],
     'epic': [20, 48, 30, 2, 0],
     'legendary': [10, 20, 40, 29, 1],
-    'mythical': [0, 0, 0, 0, 100]
+    'mythical': [0, 0, 0, 0, 1]
 }
 
 ingredients = {

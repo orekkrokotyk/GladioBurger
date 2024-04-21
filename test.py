@@ -81,12 +81,16 @@ def callback_query(callback):
     global invent
     global i_nick
     i_nick = search(callback.message.chat.id)
+    bot.delete_message(callback.message.chat.id, callback.message.id)
+    if callback.data[:4] == "sell":
+        bot.send_message(callback.message.chat.id, f"""Вы продали {callback.data[4:]}""")
+        invent["inventar"][i_nick]["many"] += market[ingredient_property[callback.data[4:]]['quality']] // 3
+        bot.send_message(callback.message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
     if callback.data == "common-Сундук" or callback.data == "rare-Сундук" or callback.data == "epic-Сундук" or callback.data == "legendary-Сундук" or callback.data == "mythical-Сундук":
         open_chest(callback)
     elif (callback.data.split('-'))[0] in ingredient:
         add_ingredient(callback)
     elif callback.data in burger_update:
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         choice_ingredient(callback)
     elif callback.data in add_cutlet:
         add_burger(callback)
@@ -96,35 +100,23 @@ def callback_query(callback):
         id_2 = inf[str(id_1)][0]
         value = inf[str(id_1)][1]
         id_fight = inf[str(id_1)][2]
-        if ingredient[inf[id_1][1]]["skill"][0] == damage \
-                or ingredient[inf[id_1][1]]["skill"][0] == snipe:
-            ingred_1 = inf[str(id_1)][3]
-            ingredient[inf[id_1][1]]["skill"][0](id_fight, value, id_1, id_2, ingred_1)
-        else:
-            ingredient[inf[id_1][1]]["skill"][0](id_fight, value, id_1, id_2)
+        ingred_1 = inf[str(id_1)][3]
+        ingredient[inf[id_1][-1]]["skill"][0](id_fight, value, id_1, id_2, ingred_1)
     elif callback.data[:12] == "place attack":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         damage_play(callback.from_user.id, callback.data[12:])
     elif callback.data[:10] == "place heal":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         heal_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:11] == "place armor":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         armor_play(callback.from_user.id, callback.data[11:])
     elif callback.data[:10] == "place fire":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         fire_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:10] == "place prov":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         god_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:10] == "place copy":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         copy_play(callback.from_user.id, callback.data[10:])
     elif callback.data[:12] == "place snipe1":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         snipe_play(callback.from_user.id, callback.data[12:])
     elif callback.data[:12] == "place snipe2":
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         snipe_2_play(callback.from_user.id, callback.data[12:])
 
 

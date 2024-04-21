@@ -78,7 +78,8 @@ def fight(id_fight):
                 if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
                     print(f)
-                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or ingredient[ingred]['skill'][0] == snipe:
+                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or \
+                        ingredient[ingred]['skill'][0] == snipe:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2, ingred)
                 elif ingredient[ingred]['skill'][0] != damage:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
@@ -98,10 +99,11 @@ def fight(id_fight):
                 bot.send_message(int(id_2), f"Бургер атакует {ingred}-ой")
                 if ingred == "Булука 🥖":
                     e_t[id_fight] = "True"
-                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or ingredient[ingred]['skill'][0] == snipe:
+                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or \
+                        ingredient[ingred]['skill'][0] == snipe:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2, id_1, ingred)
                 elif ingredient[ingred]['skill'][0] != damage:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2,id_1)
+                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2, id_1)
             while e_t[id_fight] == "False":
                 useless += 0
         # Поиск умерщих ингридиентов
@@ -192,7 +194,7 @@ def damage_play(id_1, ingred_2):
     f.close()
 
 
-def heal(id_fight, value, id_1, id_2):
+def heal(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
     markup = types.InlineKeyboardMarkup(row_width=1)
@@ -202,7 +204,7 @@ def heal(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place heal{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете добавить здоровя", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -224,7 +226,7 @@ def heal_play(id_1, ingred):
     print(e_t[id_fight], 6)
 
 
-def thorn(id_fight, value, id_1, id_2):
+def thorn(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global figh
     global e_t
@@ -233,7 +235,7 @@ def thorn(id_fight, value, id_1, id_2):
     e_t[id_fight] = "True"
 
 
-def armor(id_fight, value, id_1, id_2):
+def armor(id_fight, value, id_1, id_2, ingred_1):
     global burg
     markup = types.InlineKeyboardMarkup(row_width=1)
     g = 0
@@ -241,7 +243,7 @@ def armor(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place armor{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете добавить защиты", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -261,7 +263,7 @@ def armor_play(id_1, ingred):
     print(e_t[id_fight], 6)
 
 
-def fire(id_fight, value, id_1, id_2):
+def fire(id_fight, value, id_1, id_2, ingred_1):
     global burg
     markup = types.InlineKeyboardMarkup(row_width=1)
     g = 0
@@ -269,7 +271,7 @@ def fire(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place fire{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете добавить защиты", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -295,7 +297,7 @@ def fire_play(id_1, ingred):
     print(e_t[id_fight], 6)
 
 
-def vampirism(id_fight, value, id_1, id_2):
+def vampirism(id_fight, value, id_1, id_2, ingred_1):
     global burg
     markup = types.InlineKeyboardMarkup(row_width=1)
     g = 0
@@ -303,7 +305,7 @@ def vampirism(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place fire{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот где вы можете высосать сок", reply_markup=markup)
 
 
@@ -320,12 +322,12 @@ def vampirism_play(id_1, ingred):
     print(e_t[id_fight], 6)
 
 
-def coloring(id_fight, value, id_1, id_2):
+def coloring(id_fight, value, id_1, id_2, ingred_1):
     global burg
     burg[str(id_2)]["color"] = 1
 
 
-def copy(id_fight, value, id_1, id_2):
+def copy(id_fight, value, id_1, id_2, ingred_1):
     global burg
     markup = types.InlineKeyboardMarkup(row_width=1)
     g = 0
@@ -333,8 +335,9 @@ def copy(id_fight, value, id_1, id_2):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place copy{i}")
         markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight]
+    inf[id_1] = [id_2, value, id_fight, ingred_1]
     bot.send_message(int(id_1), "Вот чьи способности вы можете скопировать", reply_markup=markup)
+
 
 def copy_play(id_1, ingred):
     global burg
@@ -427,6 +430,7 @@ def snipe_play(id_1, ingred_2):
     f.close()
     snipe_2(id_fight, value, id_1, id_2, ingred_1)
 
+
 def snipe_2(id_fight, value, id_1, id_2, ingred_1):
     global burg
     global inf
@@ -437,7 +441,7 @@ def snipe_2(id_fight, value, id_1, id_2, ingred_1):
         g += 1
         btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place snipe2{i}")
         markup.add(btn)
-    inf[str(id_1)] = [id_2, value, id_fight, ingred_1]
+    inf[str(id_1)] = [id_2, value, id_fight, "2" + ingred_1]
     bot.send_message(int(id_1), "Вот куда вы можете снайпнуть аппанента во второй раз", reply_markup=markup)
     f = open("trash.json", 'w', encoding='utf8')
     json.dump(inf, f, ensure_ascii=False)
@@ -451,7 +455,7 @@ def snipe_2_play(id_1, ingred_2):
     id_1 = str(id_1)
     print(inf)
     id_2 = str(inf[str(id_1)][0])
-    ingred_1 = inf[str(id_1)][3]
+    ingred_1 = inf[str(id_1)][3][1:]
     value = inf[str(id_1)][1]
     id_fight = inf[str(id_1)][2]
     if burg[id_2]["thorns"] != 0:
@@ -470,18 +474,26 @@ def snipe_2_play(id_1, ingred_2):
     json.dump(inf, f, ensure_ascii=False)
     f.close()
 
+
 ingredient = {
-            'томат': {'hp': 100, 'skill': [heal, 52]}, 'салат': {'hp': 130, 'skill': [heal, 35]},
-            'огурец': {'hp': 80, 'skill': [damage, 75]}, 'солёный_огурец': {'hp': 60, 'skill': [thorn, 30]},
-            'морковь': {'hp': 100, 'skill': [damage, 55]}, 'чеснок': {'hp': 90, 'skill': [thorn, 15]},
-            'капуста': {'hp': 160, 'skill': [heal, 25]}, 'картофель': {'hp': 50, 'skill': [damage, 100]},
-            'репа': {'hp': 30, 'skill': [heal, 80]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
-            'острый_перец': {'hp': 30, 'skill': [fire, 15]},"Котлета 🟤": {'hp': 750, 'skill': [damage, 15]},
-            'Булука 🥖': {'hp': 10000}, 'лук': {'hp': 150, 'skill': [thorn, 30]},
-            'сыр': {'hp': 130, 'skill': [armor, 30]}, 'свёкла': {'hp': 60, 'skill': [coloring, 0]},
-            'горох': {'hp': 60, 'skill': [copy, 0]}, 'сельдерей': {'hp': 130, 'skill': [damage, 100]},
-            'баклажан': {'hp': 200, 'skill': [armor, 20]}, 'цветная_капуста': {'hp': 130, 'skill': [snipe, 40]},
-            'пекинская_капуста': {'hp': 100, 'skill': [damage, 140]}, 'кабачок': {'hp': 200, 'skill': [heal, 100]},
-            'фасоль': {'hp': 100, 'skill': [coloring, 0]}, 'брюква': {'hp': 100, 'skill': [armor, 52]},
-            'укроп': {'hp': 75, 'skill': [copy, 0]}, 'лук-порей': {'hp': 90, 'skill': [damage, 150]}
-              }
+    'томат': {'hp': 100, 'skill': [heal, 52]}, 'салат': {'hp': 130, 'skill': [heal, 35]},
+    'огурец': {'hp': 80, 'skill': [damage, 75]}, 'солёный_огурец': {'hp': 60, 'skill': [thorn, 30]},
+    'морковь': {'hp': 100, 'skill': [damage, 55]}, 'чеснок': {'hp': 90, 'skill': [thorn, 15]},
+    'капуста': {'hp': 160, 'skill': [heal, 25]}, 'картофель': {'hp': 50, 'skill': [damage, 100]},
+    'репа': {'hp': 30, 'skill': [heal, 80]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
+    'острый_перец': {'hp': 30, 'skill': [fire, 15]}, "Котлета 🟤": {'hp': 750, 'skill': [damage, 15]},
+    'Булука 🥖': {'hp': 10000}, 'лук': {'hp': 150, 'skill': [thorn, 30]},
+    'сыр': {'hp': 130, 'skill': [armor, 30]}, 'свёкла': {'hp': 60, 'skill': [coloring, 0]},
+    'горох': {'hp': 60, 'skill': [copy, 0]}, 'сельдерей': {'hp': 130, 'skill': [damage, 100]},
+    'баклажан': {'hp': 200, 'skill': [armor, 20]}, 'цветная_капуста': {'hp': 130, 'skill': [snipe, 40]},
+    '2цветная_капуста': {'hp': 130, 'skill': [snipe, 40]},
+    'пекинская_капуста': {'hp': 100, 'skill': [damage, 140]}, 'кабачок': {'hp': 200, 'skill': [heal, 100]},
+    'фасоль': {'hp': 100, 'skill': [coloring, 0]}, 'брюква': {'hp': 100, 'skill': [armor, 52]},
+    'укроп': {'hp': 75, 'skill': [copy, 0]},
+    'лук-порей': {'hp': 90, 'skill': [damage, 150]}, 'тыква': {'hp': 130, 'skill': [damage, 100]},
+    'арахис': {'hp': 130, 'skill': ['damage', 100]}, 'рукола': {'hp': 130, 'skill': ['damage', 100]},
+    'броколи': {'hp': 130, 'skill': ['damage', 100]}, 'редис': {'hp': 130, 'skill': ['damage', 100]},
+    'петрушка': {'hp': 130, 'skill': ['damage', 100]}, 'корнишон': {'hp': 130, 'skill': ['damage', 100]},
+    'авокадо': {'hp': 130, 'skill': ['damage', 100]},
+    'брюсельская капуста': {'hp': 130, 'skill': ['damage', 100]},
+    'патиссон': {'hp': 130, 'skill': ['damage', 100]}, 'мангольд': {'hp': 130, 'skill': ['damage', 100]}}

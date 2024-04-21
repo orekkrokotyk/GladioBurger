@@ -14,7 +14,12 @@ def inventory_call(message):
             markup.add(btn)
             bot.send_message(message.chat.id, q, reply_markup=markup)
         for q in invent["inventar"][i_nick]["items"]:
-            bot.send_message(message.chat.id, q)
+            q = q.split('-')[0]
+            markup = types.InlineKeyboardMarkup(row_width=1)
+            btn = types.InlineKeyboardButton(text=f"Продать {q} за {market[ingredient_property[q]['quality']] // 3}", callback_data="sell" + q)
+            markup.add(btn)
+            bot.send_message(message.chat.id, q, reply_markup=markup)
+
 
 
 def my_burger(message):
@@ -135,6 +140,5 @@ def add_burger(callback):
         bot.send_message(callback.message.chat.id, "Булку нельзя убрать или поменять", reply_markup=markup)
     else:
         invent["inventar"][i_nick]["burger"][int(callback.data[0]) - 1] = "Котлета 🟤"
-        bot.delete_message(callback.message.chat.id, callback.message.id)
         bot.send_message(callback.message.chat.id, f"Котлета в Бургере",
                          reply_markup=markup)
