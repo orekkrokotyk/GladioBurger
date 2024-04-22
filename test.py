@@ -85,7 +85,12 @@ def callback_query(callback):
     if callback.data[:4] == "sell":
         bot.send_message(callback.message.chat.id, f"""Вы продали {callback.data[4:]}""")
         invent["inventar"][i_nick]["many"] += market[ingredient_property[callback.data[4:]]['quality']] // 3
+        g = f"{callback.data[4:]}-{ingredient_property[callback.data[4:]]['quality']}"
+        print(g)
+        p = (invent["inventar"][i_nick]["items"]).index(g)
+        del invent["inventar"][i_nick]["items"][p]
         bot.send_message(callback.message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
+        main_menu()
     if callback.data == "common-Сундук" or callback.data == "rare-Сундук" or callback.data == "epic-Сундук" or callback.data == "legendary-Сундук" or callback.data == "mythical-Сундук":
         open_chest(callback)
     elif (callback.data.split('-'))[0] in ingredient:
@@ -94,6 +99,8 @@ def callback_query(callback):
         choice_ingredient(callback)
     elif callback.data in add_cutlet:
         add_burger(callback)
+    elif callback.data[:11] == "description":
+        bot.send_message(callback.message.chat.id, ingredient_property[callback.data[11:]]["description"])
     elif "Булука 🥖" in callback.data:
         bot.send_message(callback.message.chat.id, f"""C Булкой нельзя взаимодействовать""")
         id_1 = str(callback.message.chat.id)

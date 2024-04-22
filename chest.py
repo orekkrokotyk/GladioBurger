@@ -34,7 +34,9 @@ def open_chest(callback):
     random.shuffle(cr)
     h = cr[random.randint(0, 100)]
     item = random.randint(0, len(ingredients[h]) - 1)
-    bot.send_message(chat_id, h + ':')
+    bot.send_message(chat_id, h + ':', reply_markup=markup)
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    markup.add(types.InlineKeyboardButton(text=f"Описание", callback_data=f"description{ingredients[h][item]}"))
     bot.send_message(chat_id, ingredients[h][item], reply_markup=markup)
     cr.clear()
 
