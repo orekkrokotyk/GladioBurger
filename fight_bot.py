@@ -110,15 +110,15 @@ def fight(id_fight):
         # Определение победителя
         if 'Котлета 🟤' not in list(burg[str(id_1)]["ingredients"]):
             bot.send_message(int(id_1), f"Победил игрок {search(id_2)}")
-            invent['inventar'][search(id_2)]['many'] += 210
+            invent['inventar'][search(id_2)]['many'] += 120
             bot.send_message(int(id_2), f"Победил игрок {search(id_2)}")
-            invent['inventar'][search(id_1)]['many'] += 120
+            invent['inventar'][search(id_1)]['many'] += 60
             return
         elif 'Котлета 🟤' not in list(burg[str(id_2)]["ingredients"]):
             bot.send_message(int(id_1), f"Победил игрок {search(id_1)}")
-            invent['inventar'][search(id_1)]['many'] += 210
+            invent['inventar'][search(id_1)]['many'] += 120
             bot.send_message(int(id_2), f"Победил игрок {search(id_1)}")
-            invent['inventar'][search(id_2)]['many'] += 120
+            invent['inventar'][search(id_2)]['many'] += 60
             return
         else:
             bot.send_message(int(id_1), f"Следующий круг")
