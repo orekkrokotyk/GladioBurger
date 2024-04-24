@@ -15,7 +15,6 @@ def get_chest(message):
     markup.add(btn1, btn2, btn3, btn4)
     markup.add(btn6)
     bot.send_message(message.chat.id, 'Какой кейс вы хотите купить?', reply_markup=markup)
-    print(invent['inventar'][i_nick])
     bot.send_message(message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
 
 

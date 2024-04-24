@@ -7,7 +7,7 @@ from fight_bot import prep_fight
 
 def training_start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    size_but_1 = types.KeyboardButton("Предъистория мира")
+    size_but_1 = types.KeyboardButton("Предыстория мира")
     size_but_2 = types.KeyboardButton("Начать обучение")
     markup.add(size_but_1)
     markup.add(size_but_2)

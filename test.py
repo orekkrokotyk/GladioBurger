@@ -21,16 +21,16 @@ def second_message(message):
     find_id = search_nickname(message)
     if len(find_id) == 0:
         size_but_1 = types.KeyboardButton("Другой ник")
-        size_but_2 = types.KeyboardButton(f"Регестрация с ником {message.text}")
+        size_but_2 = types.KeyboardButton(f"Регистрация с ником {message.text}")
         markup.add(size_but_1)
         markup.add(size_but_2)
-        bot.send_message(message.chat.id, f"""Такого ника не существует, можете ввести новый или зарегестрироваться с этим""", reply_markup=markup)
+        bot.send_message(message.chat.id, f"""Такого ника не существует, можете ввести новый или зарегистрироваться с этим""", reply_markup=markup)
     else:
         size_but_1 = types.KeyboardButton(f"Вход с ником {message.text}")
         size_but_2 = types.KeyboardButton("Другой ник")
         markup.add(size_but_1)
         markup.add(size_but_2)
-        bot.send_message(message.chat.id, f"""Такой ник есть, можите войти или ввести новый""", reply_markup=markup)
+        bot.send_message(message.chat.id, f"""Такой ник уже есть, можете войти или ввести новый""", reply_markup=markup)
 
 
 @bot.message_handler(commands=['quit'])
@@ -46,9 +46,9 @@ def func(message):
     if mes == 'Главное меню':
         markup = main_menu()
         bot.send_message(message.chat.id, f"""Вы в главном меню игры""", reply_markup=markup)
-    if mes[:11] == "Регестрация":
+    if mes[:11] == "Регистрация":
         nick = mes[20:]
-        bot.send_message(message.chat.id, f"""Регестрируйся, Придумайте пароль""")
+        bot.send_message(message.chat.id, f"""Регистрируйся, Придумайте пароль""")
         bot.register_next_step_handler(message, pas, nick)
     elif mes[:4] == "Вход":
         nick = mes[13:]
@@ -68,7 +68,7 @@ def func(message):
         change_burger(message)
     elif mes == "Полностью его пересобрать":
         remake_burger(message)
-    if mes == "Предъистория мира":
+    if mes == "Предыстория мира":
         pass
     elif mes == "Начать обучение":
         pass
@@ -86,7 +86,6 @@ def callback_query(callback):
         bot.send_message(callback.message.chat.id, f"""Вы продали {callback.data[4:]}""")
         invent["inventar"][i_nick]["many"] += market[ingredient_property[callback.data[4:]]['quality']] // 3
         g = f"{callback.data[4:]}-{ingredient_property[callback.data[4:]]['quality']}"
-        print(g)
         p = (invent["inventar"][i_nick]["items"]).index(g)
         del invent["inventar"][i_nick]["items"][p]
         bot.send_message(callback.message.chat.id, f"У вас {invent['inventar'][i_nick]['many']} минет")
@@ -101,7 +100,7 @@ def callback_query(callback):
         add_burger(callback)
     elif callback.data[:11] == "description":
         bot.send_message(callback.message.chat.id, ingredient_property[callback.data[11:]]["description"])
-    elif "Булука 🥖" in callback.data:
+    elif "Булка 🥖" in callback.data:
         bot.send_message(callback.message.chat.id, f"""C Булкой нельзя взаимодействовать""")
         id_1 = str(callback.message.chat.id)
         id_2 = inf[str(id_1)][0]

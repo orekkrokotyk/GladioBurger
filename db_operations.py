@@ -46,7 +46,7 @@ def log_pass(message, nick):
         size_but_1 = types.KeyboardButton("Другой ник")
 
         markup.add(size_but_1)
-        bot.send_message(message.chat.id, "Не верный пароль, попробуйте ещё раз", reply_markup=markup)
+        bot.send_message(message.chat.id, "Неверный пароль, попробуйте ещё раз", reply_markup=markup)
         bot.send_message(message.chat.id, f"""Введите пароль""")
         bot.register_next_step_handler(message, log_pass, nick)
 
@@ -60,7 +60,6 @@ def search(u_id):
     i_nick = cursor.execute(
         f"""SELECT nick FROM User_id_nick WHERE user_id is '{u_id}'""").fetchall()
     connection.commit()
-    print(i_nick)
     i_nick = i_nick[0][0]
     connection.close()
     return i_nick
