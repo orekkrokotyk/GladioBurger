@@ -299,6 +299,8 @@ def vampirism_play(id_1, ingred):
 def coloring(id_fight, value, id_1, id_2, ingred_1):
     global burg
     burg[str(id_2)]["color"] = 1
+    e_t[id_fight] = "True"
+
 
 
 def copy(id_fight, value, id_1, id_2, ingred_1):
@@ -325,17 +327,14 @@ def copy_play(id_1, ingred):
 
 
 def god(id_fight, value, id_1, id_2, ingred_1):
+    global e_t
     global burg
-    global inf
-    global figh
-    markup = types.InlineKeyboardMarkup(row_width=1)
-    g = 0
-    for i in burg[id_2]["ingredients"]:
-        g += 1
-        btn = types.InlineKeyboardButton(text=f"{g}: {i}", callback_data=f"place prov{i}")
-        markup.add(btn)
-    inf[id_1] = [id_2, value, id_fight, ingred_1]
-    bot.send_message(int(id_1), "Вот кого вы можете покарать ", reply_markup=markup)
+    if burg[str(id_1)]["god_cd"] == 1:
+        burg[str(id_1)]["god_cd"] -= 1
+    else:
+        burg[str(id_1)]["god"] = 1
+        burg[str(id_1)]["god_cd"] = 1
+    e_t[id_fight] = "True"
 
 
 def god_play(id_1, ingred_2):
@@ -452,10 +451,7 @@ ingredient = {
     'пекинская_капуста': {'hp': 100, 'skill': [damage, 140]}, 'кабачок': {'hp': 200, 'skill': [heal, 100]},
     'фасоль': {'hp': 100, 'skill': [coloring, 0]}, 'брюква': {'hp': 100, 'skill': [armor, 52]},
     'укроп': {'hp': 75, 'skill': [copy, 0]},
-    'лук_порей': {'hp': 90, 'skill': [damage, 150]}, 'тыква': {'hp': 130, 'skill': [damage, 100]},
-    'арахис': {'hp': 130, 'skill': ['damage', 100]}, 'руккола': {'hp': 130, 'skill': ['damage', 100]},
-    'брокколи': {'hp': 130, 'skill': ['damage', 100]}, 'редис': {'hp': 130, 'skill': ['damage', 100]},
-    'петрушка': {'hp': 130, 'skill': ['damage', 100]}, 'корнишон': {'hp': 130, 'skill': ['damage', 100]},
-    'авокадо': {'hp': 200, 'skill': ['god', 0]},
-    'брюсельская капуста': {'hp': 130, 'skill': ['damage', 100]},
-    'патиссон': {'hp': 130, 'skill': ['damage', 100]}, 'мангольд': {'hp': 130, 'skill': ['damage', 100]}}
+    'лук_порей': {'hp': 90, 'skill': [damage, 150]},
+    'авокадо': {'hp': 200, 'skill': [god, 0]}}
+
+

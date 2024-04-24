@@ -31,11 +31,16 @@ def open_chest(callback):
         for t in range(chests[rarity][i]):
             cr.append(list(ingredients.keys())[i])
     random.shuffle(cr)
-    h = cr[random.randint(0, 100)]
+    h = cr[random.randint(0, 99)]
     item = random.randint(0, len(ingredients[h]) - 1)
     bot.send_message(chat_id, h + ':', reply_markup=markup)
     markup = types.InlineKeyboardMarkup(row_width=1)
     markup.add(types.InlineKeyboardButton(text=f"Описание", callback_data=f"description{ingredients[h][item]}"))
+    try:
+        f = open(ingredient_property[ingredients[h][item]]['photo'], "rb")
+        bot.send_photo(chat_id, f)
+    except:
+        pass
     bot.send_message(chat_id, ingredients[h][item], reply_markup=markup)
     cr.clear()
 
