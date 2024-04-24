@@ -73,11 +73,8 @@ def fight(id_fight):
                 bot.send_message(int(id_1), f"атакующий ингредиент - {ingred}")
                 if ingred == "Булка 🥖":
                     e_t[id_fight] = "True"
-                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or \
-                        ingredient[ingred]['skill'][0] == snipe:
+                else:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2, ingred)
-                elif ingredient[ingred]['skill'][0] != damage:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_1, id_2)
             # Проверка нужная для того что-бы бот не отправлял сообщение второму игроку до того как первый не выбрал ингридиент для взаимодействия
             while e_t[id_fight] == "False":
                 useless += 0
@@ -94,10 +91,7 @@ def fight(id_fight):
                 bot.send_message(int(id_2), f"атакующий ингредиент - {ingred}")
                 if ingred == "Булка 🥖":
                     e_t[id_fight] = "True"
-                elif ingredient[ingred]['skill'][0] == damage or ingredient[ingred]['skill'][0] == god or \
-                        ingredient[ingred]['skill'][0] == snipe:
-                    ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2, id_1, ingred)
-                elif ingredient[ingred]['skill'][0] != damage:
+                else:
                     ingredient[ingred]['skill'][0](str(id_fight), ingredient[ingred]['skill'][1], id_2, id_1)
             while e_t[id_fight] == "False":
                 useless += 0
@@ -352,13 +346,6 @@ def god_play(id_1, ingred_2):
     ingred_1 = inf[str(id_1)][3]
     value = inf[str(id_1)][1]
     id_fight = inf[str(id_1)][2]
-    if burg[id_2]["thorns"] != 0:
-        burg[id_1]["ingredients"][ingred_1][0] -= burg[id_2]["thorns"]
-        burg[id_2]["thorns"] = 0
-    if burg[str(id_2)]["color"] == 1:
-        burg[id_2]["ingredients"][ingred_2][0] -= int(value)
-        burg[str(id_2)]["color"] = 0
-    burg[id_2]["ingredients"][ingred_2][0] -= int(value)
     burg[str(id_1)]["god"] = 1
     e_t[id_fight] = "True"
     del inf[str(id_1)]
@@ -455,8 +442,8 @@ ingredient = {
     'огурец': {'hp': 80, 'skill': [damage, 75]}, 'солёный_огурец': {'hp': 60, 'skill': [thorn, 30]},
     'морковь': {'hp': 100, 'skill': [damage, 55]}, 'чеснок': {'hp': 90, 'skill': [thorn, 15]},
     'капуста': {'hp': 160, 'skill': [heal, 25]}, 'картофель': {'hp': 50, 'skill': [damage, 100]},
-    'репа': {'hp': 30, 'skill': [heal, 80]}, 'крапива': {'hp': 50, 'skill': [vampirism, 25]},
-    'острый_перец': {'hp': 30, 'skill': [fire, 15]}, "Котлета 🟤": {'hp': 750, 'skill': [damage, 15]},
+    'репа': {'hp': 30, 'skill': [heal, 80]}, 'крапива': {'hp': 500, 'skill': [vampirism, 25]},
+    'острый_перец': {'hp': 300, 'skill': [fire, 150]}, "Котлета 🟤": {'hp': 350, 'skill': [damage, 15]},
     'Булка 🥖': {'hp': 10000}, 'лук': {'hp': 150, 'skill': [thorn, 30]},
     'сыр': {'hp': 130, 'skill': [armor, 30]}, 'свёкла': {'hp': 60, 'skill': [coloring, 0]},
     'горох': {'hp': 60, 'skill': [copy, 0]}, 'сельдерей': {'hp': 130, 'skill': [damage, 100]},
@@ -469,6 +456,6 @@ ingredient = {
     'арахис': {'hp': 130, 'skill': ['damage', 100]}, 'руккола': {'hp': 130, 'skill': ['damage', 100]},
     'брокколи': {'hp': 130, 'skill': ['damage', 100]}, 'редис': {'hp': 130, 'skill': ['damage', 100]},
     'петрушка': {'hp': 130, 'skill': ['damage', 100]}, 'корнишон': {'hp': 130, 'skill': ['damage', 100]},
-    'авокадо': {'hp': 130, 'skill': ['damage', 100]},
+    'авокадо': {'hp': 200, 'skill': ['god', 0]},
     'брюсельская капуста': {'hp': 130, 'skill': ['damage', 100]},
     'патиссон': {'hp': 130, 'skill': ['damage', 100]}, 'мангольд': {'hp': 130, 'skill': ['damage', 100]}}
