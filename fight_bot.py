@@ -34,7 +34,7 @@ def prep_fight(id_fight):
     for i in range(len(users_id)):
         bot.send_message(users_id[i], f"Ваш враг - {search(users_id[i - 1])}")
         # создание словаря с ингридиентами соперников и их характеристиками
-        burg[str(users_id[i])] = {"ingredients": {}, "thorns": 0, "color": 0, "god": 0}
+        burg[str(users_id[i])] = {"ingredients": {}, "thorns": 0, "color": 0, "god": 0, "god_cd": 0}
         for v in (invent["inventar"][search(users_id[i])]["burger"]):
             # if v == "Булука 🥖":
             #     pass
